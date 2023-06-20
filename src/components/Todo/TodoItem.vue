@@ -38,19 +38,15 @@ export default {
   methods: {
     ...mapActions(["deleteTodo", "updateTodo"]),
 
-    // mounted() {
-    //   const data = localStorage.getItemItem("todos");
-    //   this.todos = JSON.parse(data);
-    //   console.log(data);
-    // },
-
     todoTextChange(e) {
       this.todoText = e.target.value;
     },
     updateTodoI(todo) {
       this.editing = this.editing == true ? false : true;
       if (this.editing) {
+        // this.todoText = localStorage.getItem("todos");
         this.todoText = todo.title;
+
         this.updateTodo(todo);
       } else {
         todo.title = this.todoText;
