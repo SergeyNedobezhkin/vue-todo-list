@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import StorageApi from "@/services/storage";
 
 Vue.use(Vuex);
 
@@ -8,46 +9,49 @@ export default new Vuex.Store({
     todoList: [],
   },
 
-  getters: {
-    allTodos: (state) => {
-      const res = localStorage.getItem("todoList");
-      state.todoList = JSON.parse(res);
-      return state.todoList;
-    },
-  },
-
   mutations: {
-    addTodo(state, todo) {
-      state.todoList.push(todo);
-    },
-
-    deleteTodo(state, id) {
-      state.todoList = state.todoList.filter(
-        (deleteTodo) => deleteTodo.id != id
-      );
-    },
-
-    updateTodo(state, todo) {
-      const index = state.todoList.findIndex((item) => item.id === todo.id);
-      if (index !== -1) {
-        state.todoList[index] = todo;
-      }
+    updateTodoList(state, todoList) {
+      state.todoList = todoList;
     },
   },
 
   actions: {
-    addTodo({ commit }, todo) {
-      commit("addTodo", todo);
-      localStorage.setItem("todoList", JSON.stringify(this.state.todoList));
+    getTodoList({ commit }) {
+      let todoList = StorageApi.getTodoList();
+      todoList = todoList ? JSON.parse(todoList) : null;
+
+      if (todoList) {
+        commit("updateTodoList", todoList);
+      }
+
+      return todoList;
     },
 
-    deleteTodo({ commit }, id) {
-      commit("deleteTodo", id);
-      localStorage.setItem("todoList", JSON.stringify(this.state.todoList));
+    addTodo({ state, commit }, todo) {
+      const newTodoList = [...state.todoList, todo];
+      StorageApi.setTodoList(JSON.stringify(newTodoList));
+      commit("updateTodoList", newTodoList);
     },
 
-    updateTodo({ commit }, todo) {
-      commit("updateTodo", todo);
+    editTodo({ state, commit }, todo) {
+      const index = state.todoList.findIndex((item) => item.id === todo.id);
+
+      const newTodoList = [...state.todoList];
+      newTodoList[index] = todo;
+
+      StorageApi.setTodoList(JSON.stringify(newTodoList));
+      commit("updateTodoList", newTodoList);
+    },
+
+    deleteTodo({ state, commit }, id) {
+      const newTodoList = state.todoList.filter((item) => item.id != id);
+      StorageApi.setTodoList(JSON.stringify(newTodoList));
+      commit("updateTodoList", newTodoList);
+    },
+
+    clearTodoList({ commit }) {
+      StorageApi.setTodoList(JSON.stringify([]));
+      commit("updateTodoList", []);
     },
   },
 });
