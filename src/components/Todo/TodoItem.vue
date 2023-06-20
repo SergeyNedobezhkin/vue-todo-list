@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="d-flex my-3 justify-content-between align-items-center">
-      <h3 v-if="!editing">{{ todo.title }}</h3>
+      <h3 v-if="!isEditing">{{ todo.title }}</h3>
 
       <div v-else class="d-flex justify-content-between align-items-center col">
         <input
@@ -13,7 +13,7 @@
       </div>
       <div class="row align-items-center btn-todo">
         <button @click="updateTodoI(todo)" class="btn btn-primary">
-          {{ editing ? "Обновить" : "Редактировать" }}
+          {{ isEditing ? "Обновить" : "Редактировать" }}
         </button>
         <button @click="deleteTodo(todo.id)" class="btn btn-danger">
           Удалить
@@ -28,13 +28,16 @@ import { mapActions } from "vuex";
 
 export default {
   props: {
-    todo: {},
+    todo: {
+      type: Object,
+      default: () => {},
+    },
   },
 
   data() {
     return {
       todoText: "",
-      editing: false,
+      isEditing: false,
     };
   },
 
@@ -46,8 +49,8 @@ export default {
     },
 
     updateTodoI(todo) {
-      this.editing = this.editing == true ? false : true;
-      if (this.editing) {
+      this.isEditing = !this.isEditing;
+      if (this.isEditing) {
         // this.todoText = localStorage.getItem("todos");
         this.todoText = todo.title;
         this.updateTodo(todo);
@@ -59,18 +62,21 @@ export default {
 };
 </script>
 
-<style scoped leng="scss">
+<style scoped>
 h3 {
   text-transform: capitalize;
 }
+
 .btn-todo {
   margin-right: 0px;
   width: 150px;
 }
+
 .btn-primary {
   margin-bottom: 2px;
 }
+
 .form-control {
   width: 95%;
 }
-
+</style>
