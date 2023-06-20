@@ -1,6 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import HomeView from "../components/views/HomeView.vue";
+import HomeView from "../views/HomeView.vue";
 
 Vue.use(VueRouter);
 const routes = [
@@ -12,7 +12,7 @@ const routes = [
   {
     path: "/todos",
     name: "todos",
-    component: () => import("../components/views/TodoView.vue"),
+    component: () => import("../views/TodoView.vue"),
   },
 ];
 

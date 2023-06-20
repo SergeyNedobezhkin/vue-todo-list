@@ -14,10 +14,9 @@ export default {
   components: {
     TodoItem,
   },
+
   computed: {
     ...mapGetters(["allTodos"]),
   },
 };
 </script>
-
-<style scoped></style>

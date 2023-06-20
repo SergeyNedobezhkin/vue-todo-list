@@ -1,16 +1,12 @@
 <template>
-  <div>
-    <div class="d-flex">
-      <input
-        @change="todoTextChange"
-        v-bind:value="todoText"
-        class="d-flex form-control"
-        type="text"
-      />
-      <button @click="addTodoI" class="btn btn-primary btn-add">
-        Добавить
-      </button>
-    </div>
+  <div class="d-flex">
+    <input
+      @change="todoTextChange"
+      :value="todoText"
+      class="d-flex form-control"
+      type="text"
+    />
+    <button @click="addTodoI" class="btn btn-primary btn-add">Добавить</button>
   </div>
 </template>
 
@@ -24,6 +20,7 @@ export default {
       todoText: "",
     };
   },
+
   methods: {
     ...mapActions(["addTodo"]),
     todoTextChange(e) {

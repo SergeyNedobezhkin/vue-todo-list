@@ -25,28 +25,31 @@
 
 <script>
 import { mapActions } from "vuex";
+
 export default {
   props: {
     todo: {},
   },
+
   data() {
     return {
       todoText: "",
       editing: false,
     };
   },
+
   methods: {
     ...mapActions(["deleteTodo", "updateTodo"]),
 
     todoTextChange(e) {
       this.todoText = e.target.value;
     },
+
     updateTodoI(todo) {
       this.editing = this.editing == true ? false : true;
       if (this.editing) {
         // this.todoText = localStorage.getItem("todos");
         this.todoText = todo.title;
-
         this.updateTodo(todo);
       } else {
         todo.title = this.todoText;
@@ -70,4 +73,4 @@ h3 {
 .form-control {
   width: 95%;
 }
-</style>
+

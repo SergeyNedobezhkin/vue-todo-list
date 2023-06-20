@@ -5,10 +5,11 @@
 </template>
 
 <script>
-import TodoHome from "@/components/Todo/TodoHome.vue";
+import TodoHome from "@/components/Todo/TodoHome";
 
 export default {
   name: "TodoView",
+
   components: {
     TodoHome,
   },

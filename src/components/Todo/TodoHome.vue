@@ -7,14 +7,14 @@
 
 <script>
 import TodoInput from "@/components/Todo/TodoInput";
-import TodoList from "@/components/Todo/TodoList.vue";
+import TodoList from "@/components/Todo/TodoList";
+
 export default {
   name: "TodoHome",
+
   components: {
     TodoInput,
     TodoList,
   },
 };
 </script>
-
-<style lang="scss" scoped></style>

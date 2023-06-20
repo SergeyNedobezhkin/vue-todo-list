@@ -5,45 +5,49 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    todos: [],
+    todoList: [],
   },
+
   getters: {
     allTodos: (state) => {
-      const res = localStorage.getItem("todos");
-      state.todos = JSON.parse(res);
-      return state.todos;
+      const res = localStorage.getItem("todoList");
+      state.todoList = JSON.parse(res);
+      return state.todoList;
+    },
+  },
+
+  mutations: {
+    addTodo(state, todo) {
+      state.todoList.push(todo);
+    },
+
+    deleteTodo(state, id) {
+      state.todoList = state.todoList.filter(
+        (deleteTodo) => deleteTodo.id != id
+      );
+    },
+
+    updateTodo(state, todo) {
+      const index = state.todoList.findIndex((item) => item.id === todo.id);
+      if (index !== -1) {
+        state.todoList[index] = todo;
+      }
     },
   },
 
   actions: {
     addTodo({ commit }, todo) {
-      commit("add_todo", todo);
-      localStorage.setItem("todos", JSON.stringify(this.state.todos));
+      commit("addTodo", todo);
+      localStorage.setItem("todoList", JSON.stringify(this.state.todoList));
     },
 
     deleteTodo({ commit }, id) {
-      commit("delete_todo", id);
-      localStorage.setItem("todos", JSON.stringify(this.state.todos));
+      commit("deleteTodo", id);
+      localStorage.setItem("todoList", JSON.stringify(this.state.todoList));
     },
 
     updateTodo({ commit }, todo) {
-      commit("update_todo", todo);
+      commit("updateTodo", todo);
     },
   },
-  mutations: {
-    add_todo(state, todo) {
-      state.todos.push(todo);
-    },
-    delete_todo(state, id) {
-      state.todos = state.todos.filter((todo) => todo.id != id);
-    },
-    update_todo(state, todo) {
-      let index = state.todos.findIndex((t) => t.id == todo.id);
-      if (index != -1) {
-        state.todos[index] = todo;
-      }
-    },
-  },
-
-  modules: {},
 });
